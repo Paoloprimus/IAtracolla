@@ -69,7 +69,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onSelectItem }) => {
     <div className="p-4 max-w-6xl mx-auto">
       <div className="flex flex-col items-center justify-center mb-6">
         <h1 className="text-2xl font-bold text-center">🤖📚🌱</h1>
-        <h1 className="text-2xl font-bold text-center">L'IA a tracolla</h1>
+        <h1 className="text-2xl font-bold text-center">IA a tracolla</h1>
         <h1 className="text-lg font-bold text-center">Liste da viaggio</h1>
       </div>
 
