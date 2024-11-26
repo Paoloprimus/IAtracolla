@@ -2,42 +2,41 @@
 
 import { useState } from 'react';
 import ModernWinesDashboard from '@/components/ui/ModernWinesDashboard';
-import WineCard from '@/components/WineCard';
+import Image from 'next/image';
 
-// Definizione del tipo Wine
 interface Wine {
   id: number;
   name: string;
   image: string;
   description: string;
   producer: string;
-  contactInfo?: string; // Campo opzionale
 }
 
 export default function Home() {
-  // Stato per il vino selezionato, con tipo Wine o null
   const [selectedWine, setSelectedWine] = useState<Wine | null>(null);
 
-  // Funzione di gestione per la selezione di un vino
   const handleSelectWine = (wine: Wine) => {
     setSelectedWine(wine);
   };
 
   return (
-    <div className="min-h-screen p-8 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      {/* Dashboard dei Vini */}
+    <div className="min-h-screen p-8 sm:p-20">
       {selectedWine === null ? (
         <ModernWinesDashboard onSelectWine={handleSelectWine} />
       ) : (
-        <div className="mt-12">
-          <h2 className="text-3xl font-bold mb-8 text-center">Scheda Vino</h2>
-          <WineCard
-            image={selectedWine.image}
-            name={selectedWine.name}
-            description={selectedWine.description}
-            producer={selectedWine.producer}
-            contactInfo={selectedWine.contactInfo}
+        <div className="bg-white p-4 rounded shadow">
+          <Image 
+            src={selectedWine.image || "/default-image.jpg"} // Fallback per immagine
+            alt={selectedWine.name || "Nome non disponibile"}
+            width={300}
+            height={200}
+            className="mb-4"
           />
+          <h3 className="text-2xl font-bold">{selectedWine.name || "Nome non disponibile"}</h3>
+          <p>{selectedWine.description || "Descrizione non disponibile"}</p>
+          <p className="mt-2 text-gray-600">
+            Produttore: {selectedWine.producer || "Informazione non disponibile"}
+          </p>
         </div>
       )}
     </div>
