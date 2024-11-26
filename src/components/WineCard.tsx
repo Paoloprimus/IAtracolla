@@ -5,18 +5,15 @@
 import React from 'react';
 
 interface WineCardProps {
-  image: string;
   name: string;
   description: string;
   producer: string;
   contactInfo: string;
 }
 
-const WineCard: React.FC<WineCardProps> = ({ image, name, description, producer, contactInfo }) => {
+const WineCard: React.FC<WineCardProps> = ({ name, description, producer, contactInfo }) => {
   return (
     <div className="max-w-md rounded overflow-hidden shadow-lg bg-white p-6">
-      <img className="w-full h-48 object-cover rounded" src={image} alt={`${name} wine`} />
-      
       <div className="py-4">
         <h2 className="text-2xl font-bold mb-2 text-gray-800">{name}</h2>
       </div>
