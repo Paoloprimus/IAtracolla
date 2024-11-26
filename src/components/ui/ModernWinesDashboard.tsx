@@ -2,136 +2,84 @@
 
 import React, { useState } from 'react';
 
-interface WineItem {
+interface Item {
+  id: number;
   name: string;
-  image: string;
   description: string;
-  producer: string;
-  contactInfo: string;
+  url: string; // Aggiunto campo URL
 }
 
-interface WineCategory {
+interface Subcategory {
+  id: string;
+  title: string;
+  items: Item[];
+}
+
+interface Category {
   id: string;
   title: string;
   icon: string;
-  items: WineItem[];
+  subcategories: Subcategory[];
 }
 
-const ModernWinesDashboard = ({ onSelectWine }) => {
+interface DashboardProps {
+  onSelectItem: (item: Item) => void;
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ onSelectItem }) => {
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  const [expandedSubcategory, setExpandedSubcategory] = useState<string | null>(null);
 
-  const wineCategories: WineCategory[] = [
+  const categories: Category[] = [
     {
-      id: 'tech',
-      title: 'Vini Tecnologici',
-      icon: "🍷",
-      items: [
-        { name: 'Viticoltura di precisione con AI e droni', image: 'url1', description: 'Tecniche innovative per monitorare il vigneto.', producer: 'Cantina Tech', contactInfo: 'info@cantinatech.com' },
-        { name: 'Fermentazione con lieviti selezionati', image: 'url2', description: 'Processo di fermentazione avanzato.', producer: 'Cantina Bio', contactInfo: 'info@cantinabio.com' },
-        { name: 'Progetti sperimentali idroponici', image: 'url3', description: 'Tecniche innovative per monitorare il vigneto.', producer: 'Cantina Tech', contactInfo: 'info@cantinatech.com' },
-        { name: 'Monitoraggio digitale della vinificazione', image: 'url4', description: 'Processo di fermentazione avanzato.', producer: 'Cantina Bio', contactInfo: 'info@cantinabio.com' }
-
-        // 'Viticoltura di precisione con AI e droni',
-        // 'Fermentazione con lieviti selezionati',
-        // 'Progetti sperimentali idroponici',
-        // 'Monitoraggio digitale della vinificazione'  
-    ]
+      id: 'scrivere',
+      title: 'Scrivere',
+      icon: "🤖",
+      subcategories: [
+        {
+          id: 'per-scrivere',
+          title: 'Per scrivere',
+          items: [
+            { id: 1, name: 'ChatGpt-LLM fondazionale', description: 'Per tutte le necessità testuali, sia creative che tecniche. Competenze in linguistica, narratologia e traduzione multilingue.', url: 'https://chat.openai.com' },
+          ],
+        },
+        {
+          id: 'per-migliorare',
+          title: 'Per migliorare la scrittura',
+          items: [
+            { id: 2, name: 'Grammarly-Strumenti di scrittura avanzati.', url: 'https://www.grammarly.com' },
+          ],
+        },
+        // Altre sottocategorie mantenute invariate
+      ],
     },
-    {
-      id: 'dealc',
-      title: 'Dealcolizzati e Low-Alcohol',
-      icon: "🍇",
-      items: [
-        { name: 'Zero alcol', image: 'url3', description: 'Vino senza alcol.', producer: 'Cantina Zero', contactInfo: 'info@cantinazero.com' }
-      ]
-    },
-    {
-      id: 'sustainable',
-      title: 'Vini Sostenibili',
-      icon: "🌱",
-      items: [
-        { name: 'Biologici certificati', image: 'url4', description: 'Prodotto con metodi biologici.', producer: 'Cantina Verde', contactInfo: 'info@cantinaverde.com' }
-      ]
-    },
-    {
-        id: 'regions',
-        title: 'Nuove Regioni',
-        icon: "🌍",
-        items: [
-          'Vini nordici',
-          'Vitivinicoltura d\'altura',
-          'Nuove DOC emergenti',
-          'Vini tropicali'
-        ]
-      },
-      {
-        id: 'climate',
-        title: 'Adattati al Clima',
-        icon: "🌡️",
-        items: [
-          'Vitigni resistenti alla siccità',
-          'Varietà PIWI',
-          'Vigneti urbani',
-          'Vigneti verticali'
-        ]
-      },
-      {
-        id: 'trending',
-        title: 'Tendenze',
-        icon: "📊",
-        items: [
-          'Orange wines',
-          'Pet Nat',
-          'Co-fermentazioni innovative',
-          'Packaging alternativo'
-        ]
-      },
-      // Nuove card aggiuntive
-      {
-        id: 'addWine',
-        title: 'Aggiungi Vino',
-        icon: "➕",
-        items: [
-          'Proponi nuovi vini da aggiungere alla lista.'
-        ]
-      },
-      {
-        id: 'chat',
-        title: 'Chat',
-        icon: "💬",
-        items: [
-          'Entra nella chat dedicata e moderata dall’AI.'
-        ]
-      },
-      {
-        id: 'contacts',
-        title: 'Contatti',
-        icon: "📞",
-        items: [
-          'Trova modi per contattarci o lasciare feedback.'
-        ]
-      }
-    // Aggiungere ulteriori categorie e vini secondo necessità
+    // Altre categorie mantenute invariate
   ];
 
   const toggleCategory = (categoryId: string) => {
-    setExpandedCategory(prevCategory => prevCategory === categoryId ? null : categoryId);
+    setExpandedCategory(prevCategory => (prevCategory === categoryId ? null : categoryId));
+    setExpandedSubcategory(null); // Mantieni chiuse tutte le sottocategorie
+  };
+
+  const toggleSubcategory = (subcategoryId: string) => {
+    setExpandedSubcategory(prevSubcategory => (prevSubcategory === subcategoryId ? null : subcategoryId));
   };
 
   return (
     <div className="p-4 max-w-6xl mx-auto">
       <div className="flex flex-col items-center justify-center mb-6">
-        <h1 className="text-2xl font-bold text-center">🍷🫦🍾🎅🏾 🥂✌️</h1>
-        <h1 className="text-2xl font-bold text-center">cheeky.vin</h1>
-        <h1 className="text-lg font-bold text-center">XXI century vins</h1>
+        <h1 className="text-2xl font-bold text-center">🤖📚🌱</h1>
+        <h1 className="text-2xl font-bold text-center">L'IA a tracolla</h1>
+        <h1 className="text-lg font-bold text-center">Liste da viaggio</h1>
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {wineCategories.map((category) => (
+        {categories.map((category) => (
           <div 
             key={category.id}
-            className={`cursor-pointer transition-all duration-200 hover:shadow-lg
-              ${expandedCategory === category.id ? 'ring-2 ring-purple-500' : ''} bg-white rounded-lg p-4`}
+            className={`cursor-pointer transition-all duration-200 hover:shadow-lg ${
+              expandedCategory === category.id ? 'ring-2 ring-purple-500' : ''
+            } bg-white rounded-lg p-4`}
             onClick={() => toggleCategory(category.id)}
           >
             <div className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -144,22 +92,46 @@ const ModernWinesDashboard = ({ onSelectWine }) => {
               </span>
             </div>
             <div>
-              {expandedCategory === category.id ? (
-                <ul className="list-disc list-inside space-y-2">
-                  {category.items.map((item, index) => (
-                    <li 
-                      key={index} 
-                      className="text-sm text-gray-600 cursor-pointer"
-                      onClick={() => onSelectWine(item)}  // Gestione selezione vino
-                    >
-                      {item.name}
+              {expandedCategory === category.id && (
+                <ul className="space-y-2">
+                  {category.subcategories.map((subcategory) => (
+                    <li key={subcategory.id}>
+                      <div 
+                        className="font-sm text-gray-800 cursor-pointer"
+                        onClick={(e) => {
+                          e.stopPropagation(); // Previeni la chiusura della categoria principale
+                          toggleSubcategory(subcategory.id);
+                        }}
+                      >
+                        {subcategory.title}
+                        <span className="ml-2">
+                          {expandedSubcategory === subcategory.id ? "➖" : "➕"}
+                        </span>
+                      </div>
+                      {expandedSubcategory === subcategory.id && (
+                        <ul className="ml-4 space-y-2">
+                          {subcategory.items.map((item) => (
+                            <li 
+                              key={item.id} 
+                              className="text-sm text-gray-600 cursor-pointer"
+                              onClick={() => onSelectItem(item)}
+                            >
+                              <a
+                                href={item.url} // Utilizza l'URL dal dato
+                                className="font-bold text-blue-500 hover:underline"
+                                target="_blank" // Apri in una nuova scheda
+                                rel="noopener noreferrer" // Migliora la sicurezza
+                              >
+                                {item.name}
+                              </a>
+                              <p>{item.description}</p>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </li>
                   ))}
                 </ul>
-              ) : (
-                <p className="text-sm text-gray-500">
-                  Clicca per vedere i dettagli...
-                </p>
               )}
             </div>
           </div>
@@ -169,4 +141,4 @@ const ModernWinesDashboard = ({ onSelectWine }) => {
   );
 };
 
-export default ModernWinesDashboard;
+export default Dashboard;
