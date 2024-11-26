@@ -4,11 +4,22 @@ import { useState } from 'react';
 import ModernWinesDashboard from '@/components/ui/ModernWinesDashboard';
 import WineCard from '@/components/WineCard';
 
+// Definizione del tipo Wine
+interface Wine {
+  id: number;
+  name: string;
+  image: string;
+  description: string;
+  producer: string;
+  contactInfo?: string; // Campo opzionale
+}
+
 export default function Home() {
-  const [selectedWine, setSelectedWine] = useState(null);
+  // Stato per il vino selezionato, con tipo Wine o null
+  const [selectedWine, setSelectedWine] = useState<Wine | null>(null);
 
   // Funzione di gestione per la selezione di un vino
-  const handleSelectWine = (wine) => {
+  const handleSelectWine = (wine: Wine) => {
     setSelectedWine(wine);
   };
 
