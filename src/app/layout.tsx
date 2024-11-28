@@ -14,8 +14,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "cheeky.vin",
-  description: "XXI Century vins",
+  title: "IA tascabile",
+  description: "Rubrica a tracolla",
 };
 
 export default function RootLayout({
