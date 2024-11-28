@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 interface Item {
   id: number;
   name: string;
-  description: string;
   url: string; // Aggiunto campo URL
 }
 
